@@ -1,6 +1,8 @@
 package com.detective.tests;
 
 import com.detective.api.SearchUsersApi;
+import io.restassured.response.Response;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -24,28 +26,28 @@ public class SearchUsersTest {
     @Test
     public void testSearchValidQueryHasTotalCount() {
         SearchUsersApi api = new SearchUsersApi(validQuery);
-        api.callAPIExpectSuccess();
-        api.validateResponse("$.total_count");
+        Response response = api.callAPIExpectSuccess();
+        Assert.assertTrue(response.jsonPath().getInt("total_count") > 0);
     }
 
     @Test
     public void testSearchValidQueryHasItems() {
         SearchUsersApi api = new SearchUsersApi(validQuery);
-        api.callAPIExpectSuccess();
-        api.validateResponse("$.items[0].login");
+        Response response = api.callAPIExpectSuccess();
+        Assert.assertFalse(response.jsonPath().getList("items").isEmpty());
     }
 
     @Test
     public void testSearchValidQueryItemHasId() {
         SearchUsersApi api = new SearchUsersApi(validQuery);
-        api.callAPIExpectSuccess();
-        api.validateResponse("$.items[0].id");
+        Response response = api.callAPIExpectSuccess();
+        Assert.assertNotNull(response.jsonPath().getInt("items[0].id"));
     }
 
     @Test
     public void testSearchNoResultsStillReturns200() {
         SearchUsersApi api = new SearchUsersApi(emptyQuery);
-        api.callAPIExpectSuccess();
-        api.validateResponse("$.total_count", "0");
+        Response response = api.callAPIExpectSuccess();
+        Assert.assertEquals(response.jsonPath().getInt("total_count"), 0);
     }
 }

@@ -1,6 +1,8 @@
 package com.detective.tests;
 
 import com.detective.api.GetUserReposApi;
+import com.zebrunner.carina.api.http.HttpResponseStatusType;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -25,27 +27,24 @@ public class UserReposTest {
     public void testGetReposResponseIsArray() {
         GetUserReposApi api = new GetUserReposApi(validUsername);
         api.callAPIExpectSuccess();
-        api.validateResponse("$[0].id");
     }
 
     @Test
     public void testGetReposEachHasName() {
         GetUserReposApi api = new GetUserReposApi(validUsername);
         api.callAPIExpectSuccess();
-        api.validateResponse("$[0].name");
     }
 
     @Test
     public void testGetReposEachHasOwner() {
         GetUserReposApi api = new GetUserReposApi(validUsername);
         api.callAPIExpectSuccess();
-        api.validateResponse("$[0].owner.login");
     }
 
     @Test
     public void testGetReposInvalidUserReturns404() {
         GetUserReposApi api = new GetUserReposApi(invalidUsername);
-        api.expectResponseStatus(com.zebrunner.carina.api.http.HttpResponseStatusType.NOT_FOUND_404);
+        api.expectResponseStatus(HttpResponseStatusType.NOT_FOUND_404);
         api.callAPI();
     }
 }

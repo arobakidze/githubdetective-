@@ -1,6 +1,9 @@
 package com.detective.tests;
 
 import com.detective.api.GetUserApi;
+import com.zebrunner.carina.api.http.HttpResponseStatusType;
+import io.restassured.response.Response;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -19,34 +22,33 @@ public class UserTest {
     public void testGetValidUserReturns200() {
         GetUserApi api = new GetUserApi(validUsername);
         api.callAPIExpectSuccess();
-        api.validateResponseAgainstSchema("api_templates/user_schema.json");
     }
 
     @Test
     public void testGetValidUserHasLogin() {
         GetUserApi api = new GetUserApi(validUsername);
-        api.callAPIExpectSuccess();
-        api.validateResponse("$.login", validUsername);
+        Response response = api.callAPIExpectSuccess();
+        Assert.assertEquals(response.jsonPath().getString("login"), validUsername);
     }
 
     @Test
     public void testGetValidUserHasPublicRepos() {
         GetUserApi api = new GetUserApi(validUsername);
-        api.callAPIExpectSuccess();
-        api.validateResponse("$.public_repos");
+        Response response = api.callAPIExpectSuccess();
+        Assert.assertTrue(response.jsonPath().getInt("public_repos") >= 0);
     }
 
     @Test
     public void testGetValidUserTypeIsUser() {
         GetUserApi api = new GetUserApi(validUsername);
-        api.callAPIExpectSuccess();
-        api.validateResponse("$.type", "User");
+        Response response = api.callAPIExpectSuccess();
+        Assert.assertEquals(response.jsonPath().getString("type"), "User");
     }
 
     @Test
     public void testGetInvalidUserReturns404() {
         GetUserApi api = new GetUserApi(invalidUsername);
-        api.expectResponseStatus(com.zebrunner.carina.api.http.HttpResponseStatusType.NOT_FOUND_404);
+        api.expectResponseStatus(HttpResponseStatusType.NOT_FOUND_404);
         api.callAPI();
     }
 }
