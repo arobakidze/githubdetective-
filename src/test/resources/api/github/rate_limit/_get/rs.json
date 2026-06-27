@@ -1,0 +1,11 @@
+{
+  "resources": {
+    "core": {
+      "limit": "ognl:#val > 0",
+      "remaining": "ognl:#val >= 0"
+    },
+    "search": {
+      "limit": "ognl:#val > 0"
+    }
+  }
+}

@@ -1,8 +1,7 @@
 package com.detective.tests;
 
 import com.detective.api.SearchUsersApi;
-import io.restassured.response.Response;
-import org.testng.Assert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -21,33 +20,35 @@ public class SearchUsersTest {
     public void testSearchValidQueryReturns200() {
         SearchUsersApi api = new SearchUsersApi(validQuery);
         api.callAPIExpectSuccess();
+        api.validateResponse(JSONCompareMode.LENIENT);
     }
 
     @Test
     public void testSearchValidQueryHasTotalCount() {
         SearchUsersApi api = new SearchUsersApi(validQuery);
-        Response response = api.callAPIExpectSuccess();
-        Assert.assertTrue(response.jsonPath().getInt("total_count") > 0);
+        api.callAPIExpectSuccess();
+        api.validateResponse(JSONCompareMode.LENIENT);
     }
 
     @Test
     public void testSearchValidQueryHasItems() {
         SearchUsersApi api = new SearchUsersApi(validQuery);
-        Response response = api.callAPIExpectSuccess();
-        Assert.assertFalse(response.jsonPath().getList("items").isEmpty());
+        api.callAPIExpectSuccess();
+        api.validateResponse(JSONCompareMode.LENIENT);
     }
 
     @Test
     public void testSearchValidQueryItemHasId() {
         SearchUsersApi api = new SearchUsersApi(validQuery);
-        Response response = api.callAPIExpectSuccess();
-        Assert.assertNotNull(response.jsonPath().getInt("items[0].id"));
+        api.callAPIExpectSuccess();
+        api.validateResponse(JSONCompareMode.LENIENT);
     }
 
     @Test
     public void testSearchNoResultsStillReturns200() {
         SearchUsersApi api = new SearchUsersApi(emptyQuery);
-        Response response = api.callAPIExpectSuccess();
-        Assert.assertEquals(response.jsonPath().getInt("total_count"), 0);
+        api.setResponseTemplate("api/github/search_users/_get/rs_zero.json");
+        api.callAPIExpectSuccess();
+        api.validateResponse(JSONCompareMode.LENIENT);
     }
 }

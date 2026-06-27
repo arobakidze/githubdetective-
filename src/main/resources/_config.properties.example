@@ -1,0 +1,7 @@
+#=============== Environment configuration ===========#
+env=PROD
+PROD.api_url=https://api.github.com
+PROD.github_token=YOUR_GITHUB_TOKEN_HERE
+PROD.github_username=your_github_username
+PROD.github_repo=your_repo_name
+#=====================================================#

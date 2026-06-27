@@ -1,9 +1,9 @@
 package com.detective.tests;
 
 import com.detective.api.GetUserApi;
+import com.detective.api.GitHubConfig;
 import com.zebrunner.carina.api.http.HttpResponseStatusType;
-import io.restassured.response.Response;
-import org.testng.Assert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -14,7 +14,7 @@ public class UserTest {
 
     @BeforeClass
     public void setUp() {
-        validUsername = System.getProperty("github.username", "arobakidze");
+        validUsername = GitHubConfig.get("github_username");
         invalidUsername = "this_user_does_not_exist_xyz_123456789";
     }
 
@@ -22,27 +22,28 @@ public class UserTest {
     public void testGetValidUserReturns200() {
         GetUserApi api = new GetUserApi(validUsername);
         api.callAPIExpectSuccess();
+        api.validateResponse(JSONCompareMode.LENIENT);
     }
 
     @Test
     public void testGetValidUserHasLogin() {
         GetUserApi api = new GetUserApi(validUsername);
-        Response response = api.callAPIExpectSuccess();
-        Assert.assertEquals(response.jsonPath().getString("login"), validUsername);
+        api.callAPIExpectSuccess();
+        api.validateResponse(JSONCompareMode.LENIENT);
     }
 
     @Test
     public void testGetValidUserHasPublicRepos() {
         GetUserApi api = new GetUserApi(validUsername);
-        Response response = api.callAPIExpectSuccess();
-        Assert.assertTrue(response.jsonPath().getInt("public_repos") >= 0);
+        api.callAPIExpectSuccess();
+        api.validateResponse(JSONCompareMode.LENIENT);
     }
 
     @Test
     public void testGetValidUserTypeIsUser() {
         GetUserApi api = new GetUserApi(validUsername);
-        Response response = api.callAPIExpectSuccess();
-        Assert.assertEquals(response.jsonPath().getString("type"), "User");
+        api.callAPIExpectSuccess();
+        api.validateResponse(JSONCompareMode.LENIENT);
     }
 
     @Test

@@ -1,0 +1,9 @@
+{
+  "total_count": "ognl:#val > 0",
+  "items": [
+    {
+      "id": "type:Integer",
+      "login": "regex:[a-zA-Z0-9_-]+"
+    }
+  ]
+}
