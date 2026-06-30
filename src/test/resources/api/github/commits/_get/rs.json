@@ -1,0 +1,9 @@
+[
+  {
+    "sha": "regex:[a-f0-9]{40}",
+    "commit": {
+      "author": "skip",
+      "message": "type:String"
+    }
+  }
+]

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="GitHub Detective Suite">
+    <test name="User Tests">
+        <classes>
+            <class name="com.detective.tests.UserTest"/>
+            <class name="com.detective.tests.UserReposTest"/>
+        </classes>
+    </test>
+    <test name="Repo Tests">
+        <classes>
+            <class name="com.detective.tests.CommitsTest"/>
+            <class name="com.detective.tests.SearchUsersTest"/>
+            <class name="com.detective.tests.RateLimitTest"/>
+        </classes>
+    </test>
+    <test name="UI Tests">
+        <classes>
+            <class name="com.detective.gui.SauceDemoInventoryTest"/>
+        </classes>
+    </test>
+</suite>

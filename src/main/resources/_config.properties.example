@@ -1,0 +1,16 @@
+env=PROD
+PROD.api_url=https://api.github.com
+PROD.github_token=YOUR_GITHUB_TOKEN_HERE
+PROD.github_username=your_github_username
+PROD.github_repo=your_repo_name
+
+saucedemo_url=https://www.saucedemo.com/
+saucedemo_inventory_url=https://www.saucedemo.com/inventory.html
+saucedemo_username=standard_user
+saucedemo_password=secret_sauce
+
+browser=chrome
+selenium_url=http://localhost:4444/wd/hub
+
+chrome_experimental_opts=profile.password_manager_leak_detection=false,credentials_enable_service=false,profile.password_manager_enabled=false
+chrome_args=--disable-features=PasswordLeakDetection,--disable-save-password-bubble,--no-first-run

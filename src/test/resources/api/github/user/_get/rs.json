@@ -1,0 +1,6 @@
+{
+  "login": "${username}",
+  "type": "User",
+  "public_repos": "ognl:#val >= 0",
+  "id": "type:Integer"
+}
